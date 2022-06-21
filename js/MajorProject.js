@@ -1,5 +1,5 @@
 //Database
-var apikey = '624509df67937c128d7c9335';
+/*var apikey = '624509df67937c128d7c9335';
 var url = 'https://majorproject-8602.restdb.io/rest/majorproject';
 
 var initialCurrency = 100000;
@@ -239,4 +239,3 @@ $('#btnPurchase').click(function () {
 });
 
 /* --- Code to run at start --- */
-

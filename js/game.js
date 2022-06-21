@@ -56,9 +56,27 @@ var arrItems = [
     }
 ];
 
+
 $("#btnEnter").click(function () {
     var purchaseAmount = $("#purchaseAmount").val();
-    console.log("Purhcase Amount = " + purchaseAmount);
+    console.log("Purchase Amount = " + purchaseAmount);
+
+    var sellAmount = $("#sellAmount").val();
+    console.log("Sell Amount = " + sellAmount);
+});
+
+//key press handlers
+
+$('body').keydown(function (event) {
+    console.log(event);
+    //enter,return key
+    if (event.which == 13) {
+        var purchaseAmount = $("#purchaseAmount").val();
+        console.log("Purchase Amount = " + purchaseAmount);
+
+        var sellAmount = $("#sellAmount").val();
+        console.log("Sell Amount = " + sellAmount);
+    }
 });
 
 $(document).ready(function () {
@@ -89,6 +107,24 @@ $(document).ready(function () {
                     purchase(item, $("#purchaseAmount").val());
                     //arrItems[item].owned += 20;
                     //arrItems[item].stock -= 20;
+
+                    break; // We got the right item, so we dont need to keep looping
+                }
+            }
+        }
+    };
+
+    document.getElementById("btnSell").onclick = function (e) {
+        // TODO: If itemClicked is not set, show an error
+        if (!itemClicked) {
+            console.log('error - nothing selected');
+        } else {
+            // Loop through the items in our "database" array
+            for (const item in arrItems) {
+                // If the item in the database matches what we clicked, use it
+                if (arrItems[item].id == itemClicked) {
+                    // Logic here
+                    sell(item, $("#sellAmount").val());
 
                     break; // We got the right item, so we dont need to keep looping
                 }
@@ -154,6 +190,7 @@ function purchase(item, amount) {
     // Subtract the price * amount from our bank
     currency = currency - arrItems[item].price * amount;
     console.log('Price For Each Item = ' + arrItems[item].price);
+    console.log('Total Price = ' + arrItems[item].price * amount);
     console.log('Current Currency = ' + currency);
 
     if (currency < 0) {
@@ -166,13 +203,15 @@ function purchase(item, amount) {
     }
 }
 
-function sell(item, amount){
+function sell(item, amount) {
     // Subtract the amount from owned
     arrItems[item].owned = arrItems[item].owned - amount;
     // Add the amount to the stock
     arrItems[item].stock = arrItems[item].stock + amount;
     // Add price * amount to the currency
     currency = currency + arrItems[item].price * amount;
+    console.log('Total Price = ' + arrItems[item].price * amount);
+    console.log('Current Currency = ' + currency);
 
     if (arrItems[item].owned < 0) {
         appear();
