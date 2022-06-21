@@ -122,10 +122,7 @@ p{
     background-color: rgba(251, 215, 203);
     border-radius: 5px;
     float: right;
-    /*right: 0px;
-    bottom: 0px;*/
     margin: 5px;
-    /*position: absolute;*/
 }
 
 #btnFinish{
@@ -134,8 +131,58 @@ p{
     background-color: rgba(251, 215, 203);
     border-radius: 5px;
     float: right;
-    /*right: 0px;
-    bottom: 0px;*/
     margin: 5px;
-    /*position: absolute;*/
+}
+
+#btnEnter{
+    width: 90px;
+    height: 50px;
+    background-color: rgba(251, 215, 203);
+    border-radius: 5px;
+    float: right;
+    margin: 5px;
+}
+
+#book{
+    width: 850px;
+    height: 500px;
+    position: fixed;
+    top: 200px;
+    left: 280px;
+    display: none;
+}
+
+#error{
+    position: fixed;
+    color: rgba(251, 215, 203);
+    font-size: 20px;
+    top: 400px;
+    left: 660px;
+    z-index: 10;
+    display: none;
+}
+
+#btnOK{
+    width: 90px;
+    height: 30px;
+    background-color: rgba(251, 215, 203);
+    border-radius: 5px;
+    top: 500px;
+    left: 840px;
+    margin: 5px;
+    position: fixed;
+    display: none;
+}
+
+#myInput{
+    right: 600px;
+}
+
+.hover{
+    border-color:rgb(68, 44, 46);
+    transition-duration: 0.5s;
+}
+
+.hover:hover{
+    border-color: white;
 }

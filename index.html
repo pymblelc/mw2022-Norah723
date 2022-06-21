@@ -37,21 +37,28 @@
     <div id="storage"
         style="padding:20px;height:340px;width:795px;background-color:rgb(255, 251, 251);border: 3px solid rgb(68, 44, 46);margin: 75px;opacity: 90%;float:left">
         <p>Storage</p>
-        <button type:="button" id="btnFinish">Finish</button>
-        <button type:="button" id="btnSell">Sell</button>
-        <button type:="button" id="btnPurchase">Purchase</button>
+        
         <!--</div>-->
-
-        <button type="button" id="btnUmbrella"></button>
-        <button type="button" id="btnRouge"></button>
-        <button type="button" id="btnJewellery"></button>
-        <button type="button" id="btnDessert"></button>
-        <button type="button" id="btnRice"></button>
-
+        <button type="button" id="btnUmbrella" class="item hover"></button>
+        <button type="button" id="btnRouge" class="item hover"></button>
+        <button type="button" id="btnJewellery" class="item hover"></button>
+        <button type="button" id="btnDessert" class="item hover"></button>
+        <button type="button" id="btnRice" class="item hover"></button>
+        <input type="text" id="purchaseAmount" style="float: right;">
+        <br><text id="purchaseAmount" style="float: right">Purchase Amount : </text></br>
+        <br></br>
+        <button type:="button" id="btnFinish" class="hover">Finish</button>
+        <button type:="button" id="btnSell" class="hover">Sell</button>
+        <button type:="button" id="btnPurchase" class="hover">Purchase</button>
+        <button type:="button" id="btnEnter" class="hover">Enter</button>
     </div>
 
+    <image id = "book" img src = "images/Book.png"></image>
+    <text id = "error" >Error</text>
+    <button type="button" id="btnOK" class="hover">OK</button>
+
     </div>
-    <script type="text/javascript" src="js/MajorProject.js"></script>
+    <!-- <script type="text/javascript" src="js/MajorProject.js"></script> -->
     <script type="text/javascript" src="js/game.js"></script>
 </body>
 
