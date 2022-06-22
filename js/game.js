@@ -58,11 +58,28 @@ var arrItems = [
 
 
 $("#btnEnter").click(function () {
-    var purchaseAmount = $("#purchaseAmount").val();
-    console.log("Purchase Amount = " + purchaseAmount);
+    let purchaseAmount = $("#purchaseAmount").val();
+    let sellAmount = $("#sellAmount").val();
+});
 
-    var sellAmount = $("#sellAmount").val();
-    console.log("Sell Amount = " + sellAmount);
+$("#btnPurchase").click(function () {
+    let purchaseAmount = $("#purchaseAmount").val();
+
+    console.log("HERE:", purchaseAmount);
+    if (purchaseAmount == "") {
+        appear2();
+        disappear2();
+    }
+});
+
+$("#btnSell").click(function () {
+    let sellAmount = $("#sellAmount").val();
+
+    console.log("HERE:", sellAmount);
+    if (sellAmount == "") {
+        appear2();
+        disappear2();
+    }
 });
 
 //key press handlers
@@ -96,6 +113,7 @@ $(document).ready(function () {
 
     document.getElementById("btnPurchase").onclick = function (e) {
         // TODO: If itemClicked is not set, show an error
+
         if (!itemClicked) {
             console.log('error - nothing selected');
         } else {
@@ -115,7 +133,8 @@ $(document).ready(function () {
     };
 
     document.getElementById("btnSell").onclick = function (e) {
-        // TODO: If itemClicked is not set, show an error
+         // TODO: If itemClicked is not set, show an error
+
         if (!itemClicked) {
             console.log('error - nothing selected');
         } else {
@@ -231,10 +250,24 @@ function appear() {
     $('#btnOK').fadeIn(50);
 };
 
+function appear2() {
+    $('#book').fadeIn(50);
+    $('#enterAmount').fadeIn(50);
+    $('#btnOK').fadeIn(50);
+};
+
 function disappear() {
     $('#btnOK').click(function () {
         $('#book').fadeOut(100);
         $('#error').fadeOut(100);
+        $('#btnOK').fadeOut(100);
+    })
+};
+
+function disappear2() {
+    $('#btnOK').click(function () {
+        $('#book').fadeOut(100);
+        $('#enterAmount').fadeOut(100);
         $('#btnOK').fadeOut(100);
     })
 };

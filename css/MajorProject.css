@@ -156,7 +156,17 @@ p{
     position: fixed;
     color: rgba(251, 215, 203);
     font-size: 20px;
-    top: 400px;
+    top: 410px;
+    left: 715px;
+    z-index: 10;
+    display: none;
+}
+
+#enterAmount{
+    position: fixed;
+    color: rgba(251, 215, 203);
+    font-size: 20px;
+    top: 410px;
     left: 660px;
     z-index: 10;
     display: none;
