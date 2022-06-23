@@ -56,7 +56,6 @@ var arrItems = [
     }
 ];
 
-
 $("#btnEnter").click(function () {
     let purchaseAmount = $("#purchaseAmount").val();
     let sellAmount = $("#sellAmount").val();
@@ -101,6 +100,7 @@ $(document).ready(function () {
     $("#myBtn").click(function () {
         var str = $("#myInput").val();
         alert(str + ', at the age of 15, you fell off a cliff and survived, and found 100,000 silver currency in the cave. And decided to break into the world to build a family business.');
+        startTimer();
     });
 
     // Get all html elements with "item" in its class and when clicked, set the itemClicked variable
@@ -133,7 +133,7 @@ $(document).ready(function () {
     };
 
     document.getElementById("btnSell").onclick = function (e) {
-         // TODO: If itemClicked is not set, show an error
+        // TODO: If itemClicked is not set, show an error
 
         if (!itemClicked) {
             console.log('error - nothing selected');
@@ -152,6 +152,40 @@ $(document).ready(function () {
     };
 });
 
+//Countdown
+document.getElementById('timer').innerHTML =
+    05 + ":" + 10;
+
+// Start the timer that appears in the top right
+function startTimer() {
+    var presentTime = document.getElementById('timer').innerHTML;
+    var timeArray = presentTime.split(/[:]+/);
+    var m = timeArray[0];
+    var s = checkSecond((timeArray[1] - 1));
+    if (s == 59) { m = m - 1 }
+    if (m < 0) {
+        return
+    }
+
+    document.getElementById('timer').innerHTML =
+        m + ":" + s;
+    console.log(m)
+    setTimeout(startTimer, 1000);
+
+}
+
+function checkSecond(sec) {
+    if (sec < 10 && sec >= 0) { sec = "0" + sec }; // add zero in front of numbers < 10
+    if (sec < 0) { sec = "59" };
+    return sec;
+}
+
+// If the count down is over, write some text 
+if (sec = 0) {
+    //location.href = 'database.html';
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "EXPIRED";
+}
 
 function displayObject() {
     //loop over array
@@ -170,25 +204,24 @@ function displayObject() {
             var numberOf2 = arrItems[rndNo].owned;
             //display 3 random object images
             var displayHTML = '';
-            //display the amount of object
-            var displayHTML1 = '';
-            //display the amount of object in stock (ie. how much the user have)
-            var displayHTML2 = '';
             displayHTML += "<div id='image" + rndNo + "' class='objects'>";
             displayHTML += "<img src='" + arrItems[rndNo].img + "'>"
             displayHTML += "<div class='price' > Silver Currency: ";
             displayHTML += price;
             displayHTML += "</div> "
+            //display the amount of object
+            var displayHTML1 = '';
             displayHTML1 += "<div class='numberOf>' > Numbers of " + arrItems[rndNo].name + " available = ";
             displayHTML1 += numberOf;
             displayHTML1 += "</div>"
+            //display the amount of object in stock (ie. how much the user have)
+            var displayHTML2 = '';
             displayHTML2 += "<div class='numberOf2>' > Numbers of " + arrItems[rndNo].name + " in stock = ";
             displayHTML2 += numberOf2;
             displayHTML2 += "</div>"
             $('#information').append(displayHTML1, displayHTML2);
             $('#displayScreen').append(displayHTML);
         }
-
     }
     numbersUsed = numbersUsed + rndNo.toString();
     console.log('Numbers Used ' + '- ' + numbersUsed);
