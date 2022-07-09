@@ -1,7 +1,8 @@
 var currency = 100_000;
 var itemClicked;
 var rndNo = 0;
-var numbersUsed = '';
+var apikey = '624509df67937c128d7c9335';
+var url = 'https://majorproject-8602.restdb.io/rest/majorproject';
 
 // Shop and Inventory variable to keep track of prices, whats in stock, and what we have
 var arrItems = [
@@ -61,26 +62,6 @@ $("#btnEnter").click(function () {
     let sellAmount = $("#sellAmount").val();
 });
 
-$("#btnPurchase").click(function () {
-    let purchaseAmount = $("#purchaseAmount").val();
-
-    console.log("HERE:", purchaseAmount);
-    if (purchaseAmount == "") {
-        appear2();
-        disappear2();
-    }
-});
-
-$("#btnSell").click(function () {
-    let sellAmount = $("#sellAmount").val();
-
-    console.log("HERE:", sellAmount);
-    if (sellAmount == "") {
-        appear2();
-        disappear2();
-    }
-});
-
 //key press handlers
 
 $('body').keydown(function (event) {
@@ -108,6 +89,7 @@ $(document).ready(function () {
         item.onclick = function (e) {
             itemClicked = e.target.id;
             console.log('itemClicked = e.target.id : ' + e.target.id);
+            console.log('ngar' + itemClicked);
         };
     }
 
@@ -119,16 +101,24 @@ $(document).ready(function () {
         } else {
             // Loop through the items in our "database" array
             for (const item in arrItems) {
+                //console.log(item);
                 // If the item in the database matches what we clicked, use it
+                console.log('123 ' + arrItems[item].id);
                 if (arrItems[item].id == itemClicked) {
-                    // Logic here
-                    purchase(item, $("#purchaseAmount").val());
-                    //arrItems[item].owned += 20;
-                    //arrItems[item].stock -= 20;
+                        // Logic here
+                        
+                        console.log('jslgufhlsiuergfilncug');
+                        purchase(item, $("#purchaseAmount").val());
+                        //arrItems[item].owned += 20;
+                        //arrItems[item].stock -= 20;
+                        console.log($("#purchaseAmount").val());
+                    } 
 
-                    break; // We got the right item, so we dont need to keep looping
-                }
+                break; // We got the right item, so we dont need to keep looping
+
             }
+            console.log(arrItems);
+            //displayObject();
         }
     };
 
@@ -187,96 +177,147 @@ if (sec = 0) {
     document.getElementById("timer").innerHTML = "EXPIRED";
 }
 
-function displayObject() {
-    //loop over array
+var pickedObjects = [];
+// Pick 3 random objects the user can purchase
+function pickRandomObjects() {
+    // TODO: pick random objects
+    var numbersUsed = '';
     var successfulCount = 0;
     while (successfulCount <= 2) {
         rndNo = Math.floor(Math.random() * 5);
-        /*console.log('RndNo - ' + rndNo);
-        console.log('numbersUsed - ' + numbersUsed);
-        console.log(numbersUsed.indexOf(rndNo.toString()));*/
+        //console.log('RndNo - ' + rndNo);
         if (numbersUsed.indexOf(rndNo.toString()) == -1) {
-            price = Math.floor(Math.random() * (arrItems[rndNo].priceMax - arrItems[rndNo].priceMin + 1) + arrItems[rndNo].priceMin);
-            arrItems[rndNo].price = price;
             numbersUsed = numbersUsed + rndNo.toString();
+            //console.log('Numbers Used ' + '- ' + numbersUsed);
             successfulCount++
-            var numberOf = arrItems[rndNo].stock;
-            var numberOf2 = arrItems[rndNo].owned;
-            //display 3 random object images
-            var displayHTML = '';
-            displayHTML += "<div id='image" + rndNo + "' class='objects'>";
-            displayHTML += "<img src='" + arrItems[rndNo].img + "'>"
-            displayHTML += "<div class='price' > Silver Currency: ";
-            displayHTML += price;
-            displayHTML += "</div> "
-            //display the amount of object
-            var displayHTML1 = '';
-            displayHTML1 += "<div class='numberOf>' > Numbers of " + arrItems[rndNo].name + " available = ";
-            displayHTML1 += numberOf;
-            displayHTML1 += "</div>"
-            //display the amount of object in stock (ie. how much the user have)
-            var displayHTML2 = '';
-            displayHTML2 += "<div class='numberOf2>' > Numbers of " + arrItems[rndNo].name + " in stock = ";
-            displayHTML2 += numberOf2;
-            displayHTML2 += "</div>"
-            $('#information').append(displayHTML1, displayHTML2);
-            $('#displayScreen').append(displayHTML);
+            pickedObjects.push(rndNo);
+            //displayObject();
+            //console.log('pickedObjects = ' + pickedObjects);
         }
+        //console.log('pickedObjects = ' + pickedObjects);
     }
-    numbersUsed = numbersUsed + rndNo.toString();
-    console.log('Numbers Used ' + '- ' + numbersUsed);
+}
+console.log('pickedObjects = ' + pickedObjects);
+
+//var value = [];
+
+/*if (itemClicked == pickedObjects) {
+    console.log('purchase success');
+} else {
+    appear();
+    disappear();
+}*/
+
+pickRandomObjects();
+
+function displayObject() {
+    // Display the objects available for purchase
+    let displayHTML = "";
+    let displayHTML1 = "";
+
+    // Loop through all our items
+    arrItems.forEach(function (item, index) {
+        // Check if current item is a picked item
+        item.price = Math.floor(Math.random() * (item.priceMax - item.priceMin + 1) + item.priceMin);
+        if (pickedObjects.includes(index)) {
+            displayHTML += "<div id='image" + index + "' class='objects'>";
+            displayHTML += "<img src='" + item.img + "'>"
+            displayHTML += "<div class='price' > " + item.name + " Price : ";
+            displayHTML += item.price;
+            displayHTML += "</div> "
+
+            displayHTML1 += "<div class='numberOf' > Numbers of " + item.name + " available = ";
+            displayHTML1 += item.stock;
+            displayHTML1 += "</div>"
+            //display the amount of object owned (ie. how much the user have)
+            displayHTML1 += "<div class='numberOf2' > Numbers of " + item.name + " owned = ";
+            displayHTML1 += item.owned;
+            displayHTML1 += "</div>"
+        }
+    })
+    // Display the number of objects in stock and owned
+    $('#displayScreen').append(displayHTML);
+    $('#information').append(displayHTML1);
 }
 
 displayObject();
 
 function purchase(item, amount) {
-    console.log("Purchasing an item");
-    // Update the item (arrItems[item]) to the new values
-    // Subtract the amount from the stock
-    arrItems[item].stock = arrItems[item].stock - amount;
-    console.log('Item: ' + arrItems[item].name + ' - ');
-    console.log('Stock After Purchase = ' + arrItems[item].stock);
-    // Add the amount to the owned
-    arrItems[item].owned = arrItems[item].owned + amount;
-    console.log('Owned Amount After Purchase = ' + arrItems[item].owned);
-    // Subtract the price * amount from our bank
-    currency = currency - arrItems[item].price * amount;
-    console.log('Price For Each Item = ' + arrItems[item].price);
-    console.log('Total Price = ' + arrItems[item].price * amount);
-    console.log('Current Currency = ' + currency);
-
-    if (currency < 0) {
+    // Conditions where the purchase function won't work
+    if (currency - arrItems[item].price * amount < 0 || arrItems[item].stock - amount < 0 || amount < 0) {
         appear();
         disappear();
         console.log('Cannot Purchase');
     } else {
+        console.log("Purchasing an item");
+        // Update the item (arrItems[item]) to the new values
+        // Subtract the amount from the stock
+        console.log('Item 12222: ' + item);
+        arrItems[item].stock = arrItems[item].stock - amount;
+        console.log('Item: ' + arrItems[item].name + ' - ');
+        console.log('Stock After Purchase = ' + arrItems[item].stock);
+        // Add the amount to the owned
+        //arrItems[item].owned = parseInt(arrItems[item].owned + amount);
+        arrItems[item].owned = arrItems[item].owned + parseInt(amount);
+        console.log('Owned Amount After Purchase = ' + arrItems[item].owned);
+        // Subtract the price * amount from our bank
+        currency = currency - arrItems[item].price * amount;
+        console.log('Price For Each Item = ' + arrItems[item].price);
+        console.log('Total Price = ' + arrItems[item].price * amount);
+        console.log('Current Currency = ' + currency);
+        console.log(arrItems);
         console.log('Purchased');
         $('.currency').text('Currency: ' + currency);
+
+
     }
 }
 
-function sell(item, amount) {
-    // Subtract the amount from owned
-    arrItems[item].owned = arrItems[item].owned - amount;
-    // Add the amount to the stock
-    arrItems[item].stock = arrItems[item].stock + amount;
-    // Add price * amount to the currency
-    currency = currency + arrItems[item].price * amount;
-    console.log('Total Price = ' + arrItems[item].price * amount);
-    console.log('Current Currency = ' + currency);
+//purchase(0, 10); // Prints Umbrella info
+//purchase(2, 5); // Prints Jewellery info
 
-    if (arrItems[item].owned < 0) {
+function sell(item, amount) {
+    // Conditions where the sell function won't work
+    if (arrItems[item].owned - amount < 0 || amount < 0) {
+        console.log(arrItems);
         appear();
         disappear();
         console.log('Cannot Sell');
     } else {
+        // Subtract the amount from owned
+        arrItems[item].owned = arrItems[item].owned - amount;
+        // Add the amount to the stock
+        arrItems[item].stock = arrItems[item].stock + parseInt(amount);
+        // Add price * amount to the currency
+        currency = currency + arrItems[item].price * amount;
+        console.log('Total Price = ' + arrItems[item].price * amount);
+        console.log('Current Currency = ' + currency);
+        console.log(arrItems);
         console.log('Sold');
         $('.currency').text('Currency: ' + currency);
     }
-
 }
 
-//<= arrItems[item].price * amount
+$("#btnPurchase").click(function () {
+    let purchaseAmount = $("#purchaseAmount").val();
+
+    console.log("HERE:", purchaseAmount);
+    if (purchaseAmount == "") {
+        appear2();
+        disappear2();
+    }
+});
+
+$("#btnSell").click(function () {
+    let sellAmount = $("#sellAmount").val();
+
+    console.log("HERE:", sellAmount);
+    if (sellAmount == "") {
+        appear2();
+        disappear2();
+    }
+});
+
 function appear() {
     $('#book').fadeIn(50);
     $('#error').fadeIn(50);
@@ -305,5 +346,45 @@ function disappear2() {
     })
 };
 
-//purchase(0, 10); // Prints Umbrella info
-//purchase(2, 5); // Prints Jewellery info
+// Access to new html
+$('#btnFinish').click(function () {
+    location.href = 'database.html';
+});
+
+// DataBase Function
+function addPurchaseInformation(item, url, apikey) {
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": url,
+        "method": "POST",
+        "headers": {
+            "content-type": "application/json",
+            "x-apikey": apikey,
+            "cache-control": "no-cache"
+        },
+        "processData": false,
+        "data": JSON.stringify(item)
+    }
+
+    $.ajax(settings).done(function (response) {
+        console.log('Item successfully added');
+        console.log(response);
+    });
+
+}
+
+  // --- Event Handlers --- 
+
+/* $('#btnPurchase').click(function () {
+   console.log('submitted');
+   var tempItem = {
+     "Name": arrItems[item].name,
+     "Object": item.img,
+     "AmountPurchased": item.amount, 
+     "PriceEach": item.price
+   };
+   addPurchaseInformation(tempItem, url, apikey);
+ });
+
+ //console.log(arrItems[item].name);*/
