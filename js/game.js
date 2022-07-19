@@ -89,7 +89,7 @@ $(document).ready(function () {
         item.onclick = function (e) {
             itemClicked = e.target.id;
             console.log('itemClicked = e.target.id : ' + e.target.id);
-            console.log('ngar' + itemClicked);
+            console.log('! ' + itemClicked);
         };
     }
 
@@ -101,24 +101,29 @@ $(document).ready(function () {
         } else {
             // Loop through the items in our "database" array
             for (const item in arrItems) {
-                //console.log(item);
+                console.log(arrItems[item].name);
                 // If the item in the database matches what we clicked, use it
-                console.log('123 ' + arrItems[item].id);
-                if (arrItems[item].id == itemClicked) {
+                if (arrItems[item].id == itemClicked /*&& pickedObjects.includes(item)*/) {
+                    /*console.log(item);
+                    console.log(arrItems[item]);
+                    console.log(arrItems[pickedObjects[0]]);
+                    console.log(pickedObjects);
+                    console.log(item == pickedObjects.includes(item));*/
+                    if (arrItems[item] == arrItems[pickedObjects[0]] || arrItems[item] == arrItems[pickedObjects[1]] || arrItems[item] == arrItems[pickedObjects[2]]) {
                         // Logic here
-                        
-                        console.log('jslgufhlsiuergfilncug');
                         purchase(item, $("#purchaseAmount").val());
                         //arrItems[item].owned += 20;
                         //arrItems[item].stock -= 20;
-                        console.log($("#purchaseAmount").val());
-                    } 
+                        console.log('item = ' + item);
+                        //database();
+                    } else {
+                        appear();
+                        disappear();
+                    }
 
-                break; // We got the right item, so we dont need to keep looping
-
+                    break; // We got the right item, so we dont need to keep looping
+                }
             }
-            console.log(arrItems);
-            //displayObject();
         }
     };
 
@@ -132,8 +137,13 @@ $(document).ready(function () {
             for (const item in arrItems) {
                 // If the item in the database matches what we clicked, use it
                 if (arrItems[item].id == itemClicked) {
-                    // Logic here
-                    sell(item, $("#sellAmount").val());
+                    if (arrItems[item] == arrItems[pickedObjects[0]] || arrItems[item] == arrItems[pickedObjects[1]] || arrItems[item] == arrItems[pickedObjects[2]]) {
+                        // Logic here
+                        sell(item, $("#sellAmount").val());
+                    } else {
+                        appear();
+                        disappear();
+                    }
 
                     break; // We got the right item, so we dont need to keep looping
                 }
@@ -177,6 +187,7 @@ if (sec = 0) {
     document.getElementById("timer").innerHTML = "EXPIRED";
 }
 
+
 var pickedObjects = [];
 // Pick 3 random objects the user can purchase
 function pickRandomObjects() {
@@ -194,19 +205,10 @@ function pickRandomObjects() {
             //displayObject();
             //console.log('pickedObjects = ' + pickedObjects);
         }
-        //console.log('pickedObjects = ' + pickedObjects);
+        console.log('pickedObjects = ' + pickedObjects);
+        console.log('numbersUsed = ' + numbersUsed);
     }
 }
-console.log('pickedObjects = ' + pickedObjects);
-
-//var value = [];
-
-/*if (itemClicked == pickedObjects) {
-    console.log('purchase success');
-} else {
-    appear();
-    disappear();
-}*/
 
 pickRandomObjects();
 
@@ -376,7 +378,7 @@ function addPurchaseInformation(item, url, apikey) {
 
   // --- Event Handlers --- 
 
-/* $('#btnPurchase').click(function () {
+/*$('#btnPurchase').click(function () {
    console.log('submitted');
    var tempItem = {
      "Name": arrItems[item].name,
@@ -385,6 +387,18 @@ function addPurchaseInformation(item, url, apikey) {
      "PriceEach": item.price
    };
    addPurchaseInformation(tempItem, url, apikey);
- });
+ });*/
+
+ /*function database () {
+    console.log('submitted');
+    var tempItem = {
+      "Name": arrItems[item].name,
+      "Object": item.img,
+      "AmountPurchased": item.amount, 
+      "PriceEach": item.price
+    };
+    addPurchaseInformation(tempItem, url, apikey);
+    console.log(arrItems[item].name);
+ }*/
 
  //console.log(arrItems[item].name);*/
