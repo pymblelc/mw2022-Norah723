@@ -231,7 +231,7 @@ function displayObject() {
             displayHTML += "<div class='price' > " + item.name + " Price : ";
             displayHTML += item.price;
             displayHTML += "</div> "
-
+            
         }
         displayHTML1 += "<div class='numberOf' > Numbers of " + item.name + " available = ";
         displayHTML1 += item.stock;
