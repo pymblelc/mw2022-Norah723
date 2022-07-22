@@ -53,6 +53,20 @@ p{
     text-align: center;
 }
 
+.round{
+    position: absolute;
+    top: 80px;
+    right: 0px;
+    height: 30px;
+    line-height: 30px;
+    width: 200px;
+    background-color: rgba(251, 215, 203);
+    /*background-color: rgb(160, 137, 138);*/
+    border: 3px solid #fff;
+    color: rgb(68, 44, 46);
+    text-align: center;
+}
+
 .objects img{
     width: 205px;
     height: 195px;
@@ -135,6 +149,15 @@ p{
 }
 
 #btnEnter{
+    width: 90px;
+    height: 50px;
+    background-color: rgba(251, 215, 203);
+    border-radius: 5px;
+    float: right;
+    margin: 5px;
+}
+
+#btnNext{
     width: 90px;
     height: 50px;
     background-color: rgba(251, 215, 203);

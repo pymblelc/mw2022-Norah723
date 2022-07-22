@@ -7,12 +7,12 @@ $(document).ready(function () {
     $("#myBtn").click(function () {
         var str = $("#myInput").val();
         alert(str + ', at the age of 15, you fell off a cliff and survived, and found 100,000 silver currency in the cave. And decided to break into the world to build a family business.');
-        startTimer();
+
     });
 });
 
 
-function getPurchaseInformations(url, apikey) {
+function getResult(url, apikey) {
     var settings = {
         "async": true,
         "crossDomain": true,
@@ -27,13 +27,18 @@ function getPurchaseInformations(url, apikey) {
 
     $.ajax(settings).done(function (response) {
         console.log(response);
+        response.sort((a, b) => b.Currency - a.Currency);
+        console.log(response.sort((a, b) => b.Currency - a.Currency));
         for (var i = 0; i < response.length; i++) {
-            console.log('response[i].Name = ' + response[i].Name);
-            var purchaseInformationItem = '';
-            purchaseInformationItem += "<div class = 'purchaseInformation>' > Object = " + response[i].Name + ", Amount purchased = " + response[i].AmountPurchased + ", Price each = " + response[i].PriceEach;
-            $("#displayScreen").append(purchaseInformationItem);
+            console.log('response[i].Currency = ' + response[i].Currency);
+            console.log('response[i].UserName = ' + response[i].UserName);
+            var score = '';
+            score += "<div class = 'scoreboard>' > User Name = " + response[i].UserName + ", Currency = " + response[i].Currency;
+            $("#displayScreen").append(score);
         }
     });
 }
 
-getPurchaseInformations(url, apikey);
+getResult(url, apikey);
+
+

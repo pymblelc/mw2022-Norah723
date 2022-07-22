@@ -1,4 +1,5 @@
 var currency = 100_000;
+var round = 1;
 var itemClicked;
 var rndNo = 0;
 var apikey = '624509df67937c128d7c9335';
@@ -154,7 +155,7 @@ $(document).ready(function () {
 
 //Countdown
 document.getElementById('timer').innerHTML =
-    05 + ":" + 10;
+    10 + ":" + 10;
 
 // Start the timer that appears in the top right
 function startTimer() {
@@ -172,19 +173,23 @@ function startTimer() {
     console.log(m)
     setTimeout(startTimer, 1000);
 
+    // If the count down is over, write some text 
+    if (m == 0 && s == 0) {
+        setTimeout(function () { window.location.href = 'database.html'; }, 3000);
+        clearInterval('timer');
+        document.getElementById("timer").innerHTML = "EXPIRED";
+    }
+
+    /*if(timeArray.constructor === Array){
+        console.log('True');
+    }*/
 }
 
 function checkSecond(sec) {
     if (sec < 10 && sec >= 0) { sec = "0" + sec }; // add zero in front of numbers < 10
     if (sec < 0) { sec = "59" };
     return sec;
-}
 
-// If the count down is over, write some text 
-if (sec = 0) {
-    //location.href = 'database.html';
-    clearInterval(x);
-    document.getElementById("timer").innerHTML = "EXPIRED";
 }
 
 
@@ -205,8 +210,11 @@ function pickRandomObjects() {
             //displayObject();
             //console.log('pickedObjects = ' + pickedObjects);
         }
+        arrItems[rndNo].price = Math.floor(Math.random() * (arrItems[rndNo].priceMax - arrItems[rndNo].priceMin + 1) + arrItems[rndNo].priceMin);
         console.log('pickedObjects = ' + pickedObjects);
-        console.log('numbersUsed = ' + numbersUsed);
+        //console.log('numbersUsed = ' + numbersUsed);
+        console.log('price: ' + arrItems[rndNo].price);
+
     }
 }
 
@@ -220,7 +228,7 @@ function displayObject() {
     // Loop through all our items
     arrItems.forEach(function (item, index) {
         // Check if current item is a picked item
-        item.price = Math.floor(Math.random() * (item.priceMax - item.priceMin + 1) + item.priceMin);
+        //item.price = Math.floor(Math.random() * (item.priceMax - item.priceMin + 1) + item.priceMin);
         if (pickedObjects.includes(index)) {
             displayHTML += "<div id='image" + index + "' class='objects'>";
             displayHTML += "<img src='" + item.img + "'>"
@@ -228,17 +236,26 @@ function displayObject() {
             displayHTML += item.price;
             displayHTML += "</div> "
 
-            displayHTML1 += "<div class='numberOf' > Numbers of " + item.name + " available = ";
+            /*displayHTML1 += "<div class='numberOf' > Numbers of " + item.name + " available = ";
             displayHTML1 += item.stock;
             displayHTML1 += "</div>"
             //display the amount of object owned (ie. how much the user have)
             displayHTML1 += "<div class='numberOf2' > Numbers of " + item.name + " owned = ";
             displayHTML1 += item.owned;
-            displayHTML1 += "</div>"
+            displayHTML1 += "</div>"*/
         }
+        displayHTML1 += "<div class='numberOf' > Numbers of " + item.name + " available = ";
+        displayHTML1 += item.stock;
+        displayHTML1 += "</div>"
+        //display the amount of object owned (ie. how much the user have)
+        displayHTML1 += "<div class='numberOf2' > Numbers of " + item.name + " owned = ";
+        displayHTML1 += item.owned;
+        displayHTML1 += "</div>"
     })
     // Display the number of objects in stock and owned
+    $('#displayScreen').empty();
     $('#displayScreen').append(displayHTML);
+    $('#information').empty();
     $('#information').append(displayHTML1);
 }
 
@@ -271,7 +288,7 @@ function purchase(item, amount) {
         console.log('Purchased');
         $('.currency').text('Currency: ' + currency);
 
-
+        displayObject();
     }
 }
 
@@ -297,8 +314,25 @@ function sell(item, amount) {
         console.log(arrItems);
         console.log('Sold');
         $('.currency').text('Currency: ' + currency);
+
+        displayObject();
     }
 }
+
+$("#btnNext").click(function () {
+    if (round < 45) {
+        round = round + 1;
+        pickedObjects.length = 0;
+        pickRandomObjects();
+        displayObject();
+        console.log(round);
+        $('.round').text('Round: ' + round);
+    } else {
+        setTimeout(function () { window.location.href = 'database.html'; }, 3000);
+        submit();
+    }
+
+});
 
 $("#btnPurchase").click(function () {
     let purchaseAmount = $("#purchaseAmount").val();
@@ -349,12 +383,14 @@ function disappear2() {
 };
 
 // Access to new html
+
 $('#btnFinish').click(function () {
-    location.href = 'database.html';
+    setTimeout(function () { window.location.href = 'database.html'; }, 3000);
+    submit();
 });
 
 // DataBase Function
-function addPurchaseInformation(item, url, apikey) {
+function addResult(item, url, apikey) {
     var settings = {
         "async": true,
         "crossDomain": true,
@@ -369,6 +405,11 @@ function addPurchaseInformation(item, url, apikey) {
         "data": JSON.stringify(item)
     }
 
+    /*if(settings.constructor === String) 
+    {
+       alert("I'm a string!");
+     }*/
+
     $.ajax(settings).done(function (response) {
         console.log('Item successfully added');
         console.log(response);
@@ -376,29 +417,15 @@ function addPurchaseInformation(item, url, apikey) {
 
 }
 
-  // --- Event Handlers --- 
+// --- Event Handlers --- s
 
-/*$('#btnPurchase').click(function () {
-   console.log('submitted');
-   var tempItem = {
-     "Name": arrItems[item].name,
-     "Object": item.img,
-     "AmountPurchased": item.amount, 
-     "PriceEach": item.price
-   };
-   addPurchaseInformation(tempItem, url, apikey);
- });*/
-
- /*function database () {
+function submit() {
     console.log('submitted');
     var tempItem = {
-      "Name": arrItems[item].name,
-      "Object": item.img,
-      "AmountPurchased": item.amount, 
-      "PriceEach": item.price
+        "UserName": $("#myInput").val(),
+        "Currency": currency
     };
-    addPurchaseInformation(tempItem, url, apikey);
-    console.log(arrItems[item].name);
- }*/
-
- //console.log(arrItems[item].name);*/
+    console.log('c = ' + currency);
+    console.log('name = ' + $("#myInput").val());
+    addResult(tempItem, url, apikey);
+}
