@@ -105,18 +105,15 @@ $(document).ready(function () {
                 console.log(arrItems[item].name);
                 // If the item in the database matches what we clicked, use it
                 if (arrItems[item].id == itemClicked /*&& pickedObjects.includes(item)*/) {
-                    /*console.log(item);
-                    console.log(arrItems[item]);
-                    console.log(arrItems[pickedObjects[0]]);
-                    console.log(pickedObjects);
-                    console.log(item == pickedObjects.includes(item));*/
+                    //console.log(item);
+                    //console.log(arrItems[item]);
+                    //console.log(arrItems[pickedObjects[0]]);
                     if (arrItems[item] == arrItems[pickedObjects[0]] || arrItems[item] == arrItems[pickedObjects[1]] || arrItems[item] == arrItems[pickedObjects[2]]) {
                         // Logic here
                         purchase(item, $("#purchaseAmount").val());
                         //arrItems[item].owned += 20;
                         //arrItems[item].stock -= 20;
                         console.log('item = ' + item);
-                        //database();
                     } else {
                         appear();
                         disappear();
@@ -207,7 +204,6 @@ function pickRandomObjects() {
             //console.log('Numbers Used ' + '- ' + numbersUsed);
             successfulCount++
             pickedObjects.push(rndNo);
-            //displayObject();
             //console.log('pickedObjects = ' + pickedObjects);
         }
         arrItems[rndNo].price = Math.floor(Math.random() * (arrItems[rndNo].priceMax - arrItems[rndNo].priceMin + 1) + arrItems[rndNo].priceMin);
@@ -236,13 +232,6 @@ function displayObject() {
             displayHTML += item.price;
             displayHTML += "</div> "
 
-            /*displayHTML1 += "<div class='numberOf' > Numbers of " + item.name + " available = ";
-            displayHTML1 += item.stock;
-            displayHTML1 += "</div>"
-            //display the amount of object owned (ie. how much the user have)
-            displayHTML1 += "<div class='numberOf2' > Numbers of " + item.name + " owned = ";
-            displayHTML1 += item.owned;
-            displayHTML1 += "</div>"*/
         }
         displayHTML1 += "<div class='numberOf' > Numbers of " + item.name + " available = ";
         displayHTML1 += item.stock;
@@ -252,6 +241,7 @@ function displayObject() {
         displayHTML1 += item.owned;
         displayHTML1 += "</div>"
     })
+    
     // Display the number of objects in stock and owned
     $('#displayScreen').empty();
     $('#displayScreen').append(displayHTML);
